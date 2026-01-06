@@ -1,0 +1,12 @@
+{
+  "activeServices": [
+    "cloud-services",
+    "dr",
+    "s3"
+  ],
+  "maintenanceMode": false,
+  "config": {
+    "apiEndpoint": "https://api.enterprise.com/v1",
+    "theme": "dark"
+  }
+}

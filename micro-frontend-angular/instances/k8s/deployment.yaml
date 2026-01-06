@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: instances-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: instances-app
+  template:
+    metadata:
+      labels:
+        app: instances-app
+    spec:
+      containers:
+      - name: instances-app
+        image: instances-app:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: instances-app
+spec:
+  selector:
+    app: instances-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

@@ -1,0 +1,17 @@
+<div class="app-layout">
+  <app-header class="header-area"></app-header>
+
+  <div class="main-body">
+    @if (currentSidebarGroups().length > 0) {
+    <app-sidebar [groups]="currentSidebarGroups()" class="sidebar-area">
+    </app-sidebar>
+    }
+
+    <!-- Main Content Area -->
+    <main class="content-area">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  <app-footer class="footer-area"></app-footer>
+</div>

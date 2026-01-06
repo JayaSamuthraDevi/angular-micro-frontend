@@ -1,0 +1,22 @@
+{
+  "users": {
+    "url": "http://localhost:4201/main.js",
+    "element": "users-app",
+    "permission": "USERS_VIEW"
+  },
+  "instances": {
+    "url": "http://localhost:4202/main.js",
+    "element": "instances-app",
+    "permission": "INSTANCES_VIEW"
+  },
+  "storage": {
+    "url": "http://localhost:4203/main.js",
+    "element": "storage-app",
+    "permission": "STORAGE_VIEW"
+  },
+  "volumes": {
+    "url": "http://localhost:4204/main.js",
+    "element": "volumes-app",
+    "permission": "VOLUMES_VIEW"
+  }
+}

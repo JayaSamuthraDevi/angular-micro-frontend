@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: volumes-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: volumes-app
+  template:
+    metadata:
+      labels:
+        app: volumes-app
+    spec:
+      containers:
+      - name: volumes-app
+        image: volumes-app:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: volumes-app
+spec:
+  selector:
+    app: volumes-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

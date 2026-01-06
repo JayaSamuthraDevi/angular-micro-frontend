@@ -1,0 +1,9 @@
+{
+  "enabledFeatures": [
+    "s3:buckets",
+    "s3:lifecycle",
+    "s3:storage-classes",
+    "s3:iam",
+    "s3:versioning"
+  ]
+}

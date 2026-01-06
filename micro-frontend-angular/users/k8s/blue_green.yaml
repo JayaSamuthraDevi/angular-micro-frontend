@@ -1,0 +1,61 @@
+# Blue Deployment (Active)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-app-blue
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: users-app
+      version: blue
+  template:
+    metadata:
+      labels:
+        app: users-app
+        version: blue
+    spec:
+      containers:
+      - name: users-app
+        image: registry.company.com/users-app:v1.0.0
+        ports:
+        - containerPort: 80
+
+---
+# Green Deployment (Idle / Candidate)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-app-green
+spec:
+  replicas: 0 # Scale up to test, then switch service
+  selector:
+    matchLabels:
+      app: users-app
+      version: green
+  template:
+    metadata:
+      labels:
+        app: users-app
+        version: green
+    spec:
+      containers:
+      - name: users-app
+        image: registry.company.com/users-app:v1.1.0
+        ports:
+        - containerPort: 80
+
+---
+# Service (Traffic Router)
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-app
+spec:
+  selector:
+    app: users-app
+    version: blue # <--- Change this to 'green' to cut traffic over
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

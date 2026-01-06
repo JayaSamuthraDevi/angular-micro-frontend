@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shell-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shell-app
+  template:
+    metadata:
+      labels:
+        app: shell-app
+    spec:
+      containers:
+      - name: shell-app
+        image: shell-app:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shell-app
+spec:
+  selector:
+    app: shell-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
