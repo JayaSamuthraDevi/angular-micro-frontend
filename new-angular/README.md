@@ -323,3 +323,141 @@ For questions or issues:
 ---
 
 **Built with ❤️ using Angular 21**
+
+````md
+# Deploy Angular Micro-Frontend App to Nginx (Domain-Based Access Control)
+
+To deploy your Angular micro-frontend application to **Nginx** with **domain-based access control**, follow the steps below.
+
+> ✅ The `ConfigurationService` is already updated to automatically detect the domain and restrict available services (`s3`, `dr`, `cloud-services`) based on the active domain.
+
+---
+
+## 1. Build the Application
+
+Generate the production build for your shell application.
+
+```bash
+# Run this from the root directory
+npm run build
+````
+
+This will create a build output at:
+
+```
+dist/shell/browser
+```
+
+*(Path may vary based on `angular.json` configuration.)*
+
+---
+
+## 2. Nginx Configuration
+
+Create an Nginx configuration file:
+
+```bash
+/etc/nginx/sites-available/enterprise-apps
+```
+
+### Nginx Config
+
+```nginx
+server {
+    listen 80;
+    server_name admin-demo.com dr-admin-demo.com console-user-demo.com;
+
+    root /var/www/enterprise-platform/browser; # Angular dist folder
+    index index.html;
+
+    # Handle Angular Routing (SPA)
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Cache static assets
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|otf)$ {
+        expires 1y;
+        add_header Cache-Control "public, must-revalidate, proxy-revalidate";
+    }
+
+    # Security Headers
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Content-Type-Options "nosniff";
+}
+```
+
+📌 **Note:**
+All domains point to the **same Angular build**. Domain-specific behavior is handled at runtime inside the application.
+
+---
+
+## 3. Deployment Steps
+
+### 3.1 Upload Build Files
+
+Copy the Angular build output to the server:
+
+```bash
+/var/www/enterprise-platform/browser
+```
+
+Example:
+
+```bash
+scp -r dist/shell/browser/* user@server:/var/www/enterprise-platform/browser
+```
+
+---
+
+### 3.2 Enable the Nginx Site
+
+```bash
+sudo ln -s /etc/nginx/sites-available/enterprise-apps \
+           /etc/nginx/sites-enabled/
+```
+
+---
+
+### 3.3 Test & Restart Nginx
+
+```bash
+sudo nginx -t
+sudo systemctl restart nginx
+```
+
+---
+
+## 4. How Domain-Based Access Control Works
+
+The `ConfigurationService` contains a `filterByDomain()` logic that activates or blocks features at runtime.
+
+### Domain Rules
+
+| Domain                  | Allowed Services             | Blocked Services       |
+| ----------------------- | ---------------------------- | ---------------------- |
+| `admin-demo.com`        | `s3`, `dr`, `cloud-services` | —                      |
+| `dr-admin-demo.com`     | `dr`, `cloud-services`       | `s3`                   |
+| `console-user-demo.com` | `s3`                         | `dr`, `cloud-services` |
+
+### Enforcement
+
+* Feature visibility is controlled via **ConfigurationService**
+* Route access is enforced using **Feature Guards**
+* No rebuild required for domain changes
+* Same build works across all environments
+
+---
+
+## ✅ Result
+
+* **Single Angular build**
+* **Multiple domains**
+* **Runtime feature control**
+* **No redeployment for access changes**
+
+This approach is production-ready and aligns with Angular micro-frontend best practices.
+
+```
+```

@@ -22,7 +22,7 @@ export const routes: Routes = [
   },
   {
     path: 'cloud-services',
-    loadChildren: () => import('@cloud-services/app.routes').then(m => m.routes),
+    loadChildren: () => import('@cloud-services/app/app.routes').then(m => m.routes),
     canMatch: [featureGuard('cloud-services')],
     data: { sidebar: 'cloud' }
   },
@@ -34,7 +34,7 @@ export const routes: Routes = [
   },
   {
     path: 's3',
-    loadChildren: () => import('@s3/app.routes').then(m => m.routes),
+    loadChildren: () => import('@s3/app/app.routes').then(m => m.routes),
     canMatch: [featureGuard('s3')],
     data: { sidebar: 's3' }
   },

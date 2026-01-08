@@ -27,13 +27,33 @@ export class ConfigurationService {
       const data = await firstValueFrom(
         this.http.get<GeneralConfig>('assets/generalconfigurations.json')
       );
-      this.baseServices = data.activeServices;
+
+      this.baseServices = this.filterByDomain(data.activeServices);
       this.fullConfig.set(data.config);
       this.refreshFeatures();
-      console.log('✅ General Configurations Loaded:', data);
+      console.log('✅ General Configurations Loaded (Filtered by Domain):', this.baseServices);
     } catch (err) {
       console.error('❌ Failed to load general configurations', err);
     }
+  }
+
+  private filterByDomain(services: string[]): string[] {
+    const host = window.location.hostname;
+
+    if (host.includes('admin-demo.com') && !host.includes('dr-admin-demo')) {
+      return services; // admin-demo.com gets all (s3, dr, cloud-services)
+    }
+
+    if (host.includes('dr-admin-demo.com')) {
+      return services.filter(s => s === 'dr' || s === 'cloud-services');
+    }
+
+    if (host.includes('console-user-demo.com')) {
+      return services.filter(s => s === 's3');
+    }
+
+    // Default for local development
+    return services;
   }
 
   async loadModuleFeatures(moduleName: string): Promise<void> {

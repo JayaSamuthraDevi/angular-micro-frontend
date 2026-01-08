@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { S3DashboardComponent } from './app/pages/s3-dashboard.component';
-import { LifecyclePoliciesComponent } from './app/pages/lifecycle-policies.component';
-import { StorageClassesComponent } from './app/pages/storage-classes.component';
-import { S3IAMComponent } from './app/pages/iam.component';
-import { S3VersioningComponent } from './app/pages/versioning.component';
+import { S3DashboardComponent } from './pages/s3-dashboard.component';
+import { LifecyclePoliciesComponent } from './pages/lifecycle-policies.component';
+import { StorageClassesComponent } from './pages/storage-classes.component';
+import { S3IAMComponent } from './pages/iam.component';
+import { S3VersioningComponent } from './pages/versioning.component';
 import { featureGuard } from '@core/guards/feature.guard';
 
 export const routes: Routes = [
