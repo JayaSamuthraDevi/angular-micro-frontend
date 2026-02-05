@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Shell</title>
@@ -7,7 +8,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
+
 <body>
-  <app-root></app-root>
+  <script>
+    (function () {
+      var hostname = window.location.hostname;
+      var themeClass = 'theme-default'; // Fallback
+
+      // Logic to determine theme based on domain
+      // You can replace these string checks with your actual domain logic
+      if (hostname === 'localhost') {
+        themeClass = 'theme-localhost';
+      } else if (hostname === '127.0.0.1') {
+        themeClass = 'theme-ip';
+      } else {
+        // For demonstration, let's assume any other domain is 'theme-production'
+        // In a real scenario, you might check for specific domains like 'app.example.com'
+        themeClass = 'theme-production';
+      }
+
+      document.body.classList.add(themeClass);
+    })();
+  </script>
+  <app-root>
+    <div class="app-loading">
+      <div class="spinner"></div>
+      <p>Loading application...</p>
+    </div>
+  </app-root>
 </body>
+
 </html>

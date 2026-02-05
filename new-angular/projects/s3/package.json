@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "apexcharts": "^5.3.6",
+    "monaco-editor": "^0.55.1",
     "ng-apexcharts": "^2.0.4"
   }
 }

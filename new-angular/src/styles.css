@@ -5,8 +5,45 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color: #1f2937;
     background: #f8fafc;
+    min-height: 100vh; /* Ensure background covers full screen */
+}
+
+/* Loading Spinner Styles */
+.app-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 1rem;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 * {
     box-sizing: border-box;
+}
+
+/* Domain-based Themes */
+body.theme-localhost {
+    background-color: #e0f2fe; /* Light Blue for localhost */
+}
+
+body.theme-ip {
+    background-color: #dcfce7; /* Light Green for 127.0.0.1 */
+}
+
+body.theme-production {
+    background-color: #fae8ff; /* Light Purple for others */
 }
